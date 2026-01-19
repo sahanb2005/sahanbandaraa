@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sahan Bandara - CV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    :root {
+      --primary-color: #00f0ff;
+      --accent-color: #a84bff;
+      --bg-color: #05050a;
+      --panel-color: rgba(18,18,28,0.6);
+      --text-color: #e6ffff;
+      --muted: #9aa6b2;
+      --font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.5;
+    }
+
+    .cv-container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: var(--panel-color);
+      padding: 20px 40px 40px 40px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px) saturate(1.05);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6), 0 0 20px rgba(0,240,255,0.03) inset;
+    }
+
+    /* Banner image */
+    .banner {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      height: 180px;
+      object-fit: cover;
+      border: 1px solid rgba(0,240,255,0.1);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.2rem; margin-top: 24px; margin-bottom: 12px; border-bottom: 1px solid var(--accent-color); padding-bottom: 4px; }
+    h3 { font-size: 1rem; color: var(--muted); }
+
+    .section { margin-bottom: 28px; }
+    .flex { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .contact a { color: var(--primary-color); text-decoration: none; margin-right: 20px; font-weight: 600; }
+    .contact a:hover { color: var(--accent-color); text-decoration: underline; }
+    .education p, .projects p { margin: 4px 0; }
+
+    /* Skills section */
+    .skills-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+    .skill-box { width: 120px; text-align: center; margin-bottom: 12px; }
+    .skill-box i { font-size: 2rem; color: var(--primary-color); }
+    .muted { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+
+    .skill-bar-container {
+      height: 10px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .skill-bar {
+      height: 100%;
+      border-radius: 8px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    }
+
+    /* Project cards */
+    .project-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(0,240,255,0.06); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+    .project-card h4 { margin: 0 0 6px 0; color: var(--primary-color); font-size: 1rem; }
+    .tech-icons i { margin-right: 8px; color: var(--primary-color); }
+
+    .profile-img { width: 120px; height: 120px; border-radius: 50%; background: rgba(0,0,0,0.2); border: 2px solid var(--primary-color); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.9rem; margin-right: 20px; flex-shrink: 0; }
+    .header-flex { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; }
+
+    /* Download button */
+    .download-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      color: #000;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+
+    .download-btn:hover {
+      background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+    }
+  </style>
+</head>
+<body>
+  <div class="cv-container" id="cvContent">
+    
+    <!-- Banner -->
+    <img src="Blue And Purple Professional Technology LinkedIn Banner.png" alt="Professional Banner" class="banner">
+
+    <!-- Header -->
+    <div class="section header-flex">
+      <div class="profile-img">Your Photo</div>
+      <div>
+        <h1>Sahan Bandara</h1>
+        <h3>Undergraduate | Software Developer | Web & Mobile Enthusiast</h3>
+        <div class="contact flex mt-2">
+          <a href="mailto:sahanb942@gmail.com"><i class="fa-solid fa-envelope"></i> sahanb942@gmail.com</a>
+          <a href="https://github.com/sahanb2005" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+          <a href="https://www.linkedin.com/in/sahan-bandara-20b339344/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="section education">
+      <h2>Education</h2>
+      <p><strong>Birmingham City University</strong> – Undergraduate (Current)</p>
+      <p><strong>UK Awards Diploma Level 4</strong> – Payment Completed</p>
+      <p><strong>UK Awards Higher Diploma Level 5</strong> – Payment Completed</p>
+      <p><strong>O/L Results:</strong> Maths S, Commerce S, History S, Buddhism C, Sinhala C, English C, Science C, ICT C, Music B</p>
+      <p><strong>Diploma:</strong> Diploma in Spoken English</p>
+    </div>
+
+    <!-- Skills -->
+    <div class="section skills">
+      <h2>Skills</h2>
+      <div class="skills-row">
+        <div class="skill-box">
+          <i class="fa-brands fa-react"></i>
+          <div class="muted">React</div>
+          <div class="skill-bar-container"><div class="skill-bar" style="width:80%"></div></div>
+        </div>
+        <div class="skill-box">
+          <i class="fa-brands fa-react"></i>
+          <div class="muted">React Native</div>
+          <div class="skill-bar-container"><div class="skill-bar" style="width:70%"></div></div>
+        </div>
+        <div class="skill-box">
+          <i class="fa-brands fa-js"></i>
+          <div class="muted">JavaScript</div>
+          <div class="skill-bar-container"><div class="skill-bar" style="width:85%"></div></div>
+        </div>
+        <div class="skill-box">
+          <i class="fa-solid fa-code"></i>
+          <div class="muted">TypeScript</div>
+          <div class="skill-bar-container"><div class="skill-bar" style="width:75%"></div></div>
+        </div>
+        <div class="skill-box">
+          <i class="fa-brands fa-node-js"></i>
+          <div class="muted">Node.js</div>
+          <div class="skill-bar-container"><div class="skill-bar" style="width:78%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="section projects">
+      <h2>Projects</h2>
+
+      <div class="project-card">
+        <h4>Tea Factory Management</h4>
+        <p>Full system managing production, inventory, payroll, quality, reporting.</p>
+        <div class="tech-icons">
+          <i class="fa-brands fa-java"></i>
+          <i class="fa-solid fa-database"></i>
+          <i class="fa-solid fa-server"></i>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <h4>Inventory System</h4>
+        <p>Inventory control with stock alerts, supplier tracking, and reporting dashboards.</p>
+        <div class="tech-icons">
+          <i class="fa-brands fa-java"></i>
+          <i class="fa-solid fa-database"></i>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <h4>POS System</h4>
+        <p>Billing, reporting, and real-time stock updates system.</p>
+        <div class="tech-icons">
+          <i class="fa-brands fa-java"></i>
+          <i class="fa-solid fa-database"></i>
+        </div>
+      </div>
+
+      <button class="download-btn" onclick="downloadCV()">Download CV</button>
+    </div>
+  </div>
+
+  <script>
+    function downloadCV() {
+      const element = document.getElementById('cvContent');
+      const opt = {
+        margin:       0.5,
+        filename:     'Sahan_Bandara_CV.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>H.M.B.Sahan Bandara Herath — Portfolio</title>
+
+  <!-- Bootstrap for layout -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-900: #05050a;
+      --bg-800: #0a0a12;
+      --panel: rgba(18, 18, 28, 0.6);
+      --neon: #00f0ff;
+      --accent: #a84bff;
+      --muted: #9aa6b2;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-900);
+      color: var(--neon);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    /* Fullscreen animated canvas */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* Page content sits above animation */
+    .site-wrap {
+      position: relative;
+      z-index: 400;
+    }
+
+    /* Glass panels for sections */
+    .panel {
+      background: var(--panel);
+      margin: 40px auto;
+      max-width: 1100px;
+      border-radius: 12px;
+      padding: 40px;
+      backdrop-filter: blur(8px) saturate(1.05);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 240, 255, 0.03) inset;
+      border: 1px solid rgba(0, 240, 255, 0.06);
+    }
+
+    /* Navbar */
+    .navbar {
+      background: linear-gradient(90deg, rgba(10, 10, 20, 0.8), rgba(20, 16, 40, 0.6));
+      border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+      z-index: 15;
+      backdrop-filter: blur(6px);
+    }
+
+    .navbar .navbar-brand {
+      color: var(--neon);
+      font-weight: 700;
+      letter-spacing: 0.4px;
+    }
+
+    .navbar .nav-link {
+      color: rgba(160, 240, 255, 0.9);
+      font-weight: 500;
+    }
+
+    .navbar .nav-link:hover {
+      color: var(--accent);
+      text-shadow: 0 0 8px rgba(168, 75, 255, 0.12);
+    }
+
+    /* Hero area */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 70px);
+      text-align: center;
+      padding-top: 60px;
+      padding-bottom: 60px;
+    }
+
+    .hero .title {
+      z-index: 12;
+      color: var(--neon);
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.15), 0 0 24px rgba(0, 240, 255, 0.06);
+    }
+
+    .title h1 {
+      font-size: clamp(2rem, 4.5vw, 3.6rem);
+      margin: 0;
+      letter-spacing: 0.6px;
+      line-height: 1.05;
+    }
+
+    .title p {
+      margin-top: 12px;
+      color: #dff8fb;
+      opacity: 0.95;
+      font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: linear-gradient(90deg, var(--neon), var(--accent));
+      border: none;
+      color: #021016;
+      font-weight: 700;
+      border-radius: 10px;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--neon);
+      border: 1px solid rgba(0, 240, 255, 0.12);
+      border-radius: 10px;
+      padding: 8px 16px;
+    }
+
+    /* Sections heading */
+    .section-title {
+      color: var(--neon);
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin-bottom: 18px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Skills chips */
+    .skill-chip {
+      display: inline-block;
+      padding: 6px 10px;
+      margin: 6px 8px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      color: var(--neon);
+      border: 1px solid rgba(0, 240, 255, 0.06);
+      font-weight: 600;
+      box-shadow: 0 4px 18px rgba(0, 240, 255, 0.02);
+    }
+
+    /* Project card */
+    .project-card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+      border: 1px solid rgba(0, 240, 255, 0.04);
+      padding: 18px;
+      border-radius: 10px;
+      color: var(--neon);
+    }
+
+    .project-card h5 {
+      color: #e6ffff;
+      margin-bottom: 8px;
+    }
+
+    .project-card p {
+      color: #d7f9fa;
+    }
+
+    /* Contact links */
+    a.contact-link {
+      color: var(--neon);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a.contact-link:hover {
+      color: var(--accent);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 28px 12px;
+      color: rgba(0, 240, 255, 0.9);
+      font-weight: 600;
+      z-index: 12;
+    }
+
+    /* Mobile tweaks */
+    @media (max-width:768px) {
+      .panel {
+        margin: 20px 16px;
+        padding: 24px;
+      }
+
+      .navbar {
+        padding: 0.45rem 1rem;
+      }
+    }
+
+    /* subtle floating fade-in */
+    .reveal {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.7s cubic-bezier(.18, .9, .32, 1);
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: none;
+    }
+
+    .skill-box {
+      width: 120px;
+    }
+
+    .skill-bar {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon), var(--accent));
+      border-radius: 6px;
+      font-size: 0;
+    }
+
+    .skill-percent {
+      font-size: 0.75rem;
+      margin-top: 4px;
+      color: var(--muted);
+    }
+
+    .hidden-skills {
+      display: none;
+    }
+
+    .see-more-btn {
+      margin-top: 18px;
+      padding: 8px 18px;
+      border-radius: 20px;
+      background: linear-gradient(90deg, var(--neon), var(--accent));
+      color: #000;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .project-hover {
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .project-hover:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 18px 50px rgba(0, 240, 255, 0.18);
+    }
+
+    .project-slider {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      height: 170px;
+    }
+
+    .project-slider img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      animation: slideFade 12s infinite;
+    }
+
+    .project-slider img:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .project-slider img:nth-child(2) {
+      animation-delay: 4s;
+    }
+
+    .project-slider img:nth-child(3) {
+      animation-delay: 8s;
+    }
+
+    @keyframes slideFade {
+      0% {
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      30% {
+        opacity: 1;
+      }
+
+      40% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .tech-icons i {
+      margin-right: 8px;
+      color: var(--neon);
+    }
+
+    /* Lock project card size */
+    .project-card {
+      height: 420px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Content area */
+    .project-content {
+      flex: 1;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    /* Collapsed state */
+    .project-content.collapsed {
+      max-height: 70px;
+    }
+
+    /* Expanded state */
+    .project-content.expanded {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    /* Show more button */
+    .show-more-btn {
+      background: none;
+      border: none;
+      color: var(--neon);
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 6px;
+    }
+
+    /* Reset on mouse leave */
+    .project-card:not(:hover) .project-content {
+      max-height: 70px;
+    }
+
+    .project-card:not(:hover) .project-content {
+      overflow: hidden;
+    }
+
+    /* Vertical project cards */
+    .vertical-projects {
+      display: none;
+      margin-top: 30px;
+    }
+
+    .project-video {
+      width: 100%;
+      max-width: 100%;
+      height: 200px;
+      /* adjust height if needed */
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+
+    .vertical-project-card {
+      display: flex;
+      gap: 18px;
+      padding: 16px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+      border: 1px solid rgba(0, 240, 255, 0.06);
+      margin-bottom: 18px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .vertical-project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0, 240, 255, 0.15);
+    }
+
+    .vertical-project-card img {
+      width: 180px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .vertical-project-content {
+      flex: 1;
+    }
+
+    .vertical-tech i {
+      margin-right: 10px;
+      color: var(--neon);
+    }
+
+    /* Reset expanded project content when mouse leaves projects section */
+    #projects:not(:hover) .project-content {
+      max-height: 70px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="site-wrap">
+
+    <!-- NAV -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">H.M.B.Sahan Bandara Herath</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+          <ul class="navbar-nav ms-auto align-items-center">
+            <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+            <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="panel reveal" style="max-width:980px;">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-7 text-start">
+            <div class="title">
+              <h1>&lt; H.M.B. Sahan Bandara Herath /&gt;</h1>
+              <p class="muted">Full Stack Software Engineer — React · Node.js · Java · Spring Boot · TypeScript · SQL
+              </p>
+              <div style="margin-top:18px;">
+               <a class="btn btn-primary me-2" href="#contact">Hire Me</a>
+              <a class="btn btn-ghost" href="#" onclick="downloadResume()" >Download Resume</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5 text-lg-end d-none d-lg-block">
+            <!-- optional image overlay; replace path if needed -->
+            <div
+              style="display:inline-block; border-radius:12px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+              <img src="Blue And Purple Professional Technology LinkedIn Banner.png" alt="banner"
+                style="width:320px; height:220px; object-fit:cover; display:block; filter:contrast(1.05) saturate(1.05);">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="panel reveal">
+        <h3 class="section-title">About Me</h3>
+        <p class="muted">I am a passionate Full Stack Software Engineer with strong skills in web development and
+          database management. I build efficient, modern, and responsive web applications that solve real problems.
+          Continuously learning and integrating new tech to improve user experience.</p>
+        <div style="margin-top:14px;">
+          <strong class="muted">Education:</strong>
+          <div style="margin-top:8px; color:#dffbff;">Java Institute for Advance Technology — Birmingham City University
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="panel reveal">
+        <h3 class="section-title">Skills</h3>
+        <div class="d-flex flex-wrap gap-4 align-items-center">
+
+          <div class="text-center">
+            <i class="fa-brands fa-react fa-2x"></i>
+            <div class="muted">React</div>
+          </div>
+
+          <div class="text-center">
+            <i class="fa-brands fa-js fa-2x"></i>
+            <div class="muted">JavaScript</div>
+          </div>
+
+          <div class="text-center">
+            <i class="fa-brands fa-node-js fa-2x"></i>
+            <div class="muted">Node.js</div>
+          </div>
+
+          <div class="text-center">
+            <i class="fa-brands fa-java fa-2x"></i>
+            <div class="muted">Java</div>
+          </div>
+
+          <div class="text-center">
+            <i class="fa-solid fa-database fa-2x"></i>
+            <div class="muted">SQL</div>
+          </div>
+
+          <div class="text-center">
+            <i class="fa-brands fa-bootstrap fa-2x"></i>
+            <div class="muted">Bootstrap</div>
+          </div>
+
+          <div class="text-center">
+            <i class="fa-solid fa-code-branch fa-2x"></i>
+            <div class="muted">Gradle</div>
+          </div>
+
+
+
+
+          <div class="text-center">
+            <i class="fa-solid fa-code fa-2x"></i>
+            <div class="muted">Dart</div>
+          </div>
+
+          <div class="text-center">
+            <i class="fa-brands fa-python fa-2x"></i>
+            <div class="muted">Python</div>
+          </div>
+
+          <div class="text-center">
+            <i class="fa-brands fa-react fa-2x"></i>
+            <div class="muted">React Native</div>
+          </div>
+
+          <div class="text-center">
+            <i class="fa-brands fa-square-js fa-2x"></i> <!-- TypeScript placeholder -->
+            <div class="muted">TypeScript</div>
+          </div>
+
+          <div class="text-center">
+            <i class="fa-brands fa-php fa-2x"></i>
+            <div class="muted">PHP</div>
+          </div>
+
+
+        </div>
+
+
+        <!-- animated skill bars (visual) -->
+        <!-- MAIN SKILLS -->
+        <div style="margin-top:22px;">
+
+          <div class="muted">
+            <i class="fa-brands fa-react me-2"></i> Frontend Development (React, JS)
+          </div>
+          <div
+            style="height:10px; background:rgba(255,255,255,0.04); border-radius:8px; overflow:hidden; margin-top:6px;">
+            <div
+              style="height:100%; width:86%; background:linear-gradient(90deg,var(--neon),var(--accent)); border-radius:8px;">
+            </div>
+          </div>
+
+
+          <div class="muted" style="margin-top:14px;">
+            <i class="fa-brands fa-node-js me-2"></i> Backend Development (Node, Java)
+          </div>
+          <div
+            style="height:10px; background:rgba(255,255,255,0.04); border-radius:8px; overflow:hidden; margin-top:6px;">
+            <div
+              style="height:100%; width:80%; background:linear-gradient(90deg,var(--neon),var(--accent)); border-radius:8px;">
+            </div>
+          </div>
+
+          <div class="muted" style="margin-top:14px;">
+            <i class="fa-solid fa-database me-2"></i> Database Management (SQL)
+          </div>
+          <div
+            style="height:10px; background:rgba(255,255,255,0.04); border-radius:8px; overflow:hidden; margin-top:6px;">
+            <div
+              style="height:100%; width:82%; background:linear-gradient(90deg,var(--neon),var(--accent)); border-radius:8px;">
+            </div>
+          </div>
+
+          <!-- HIDDEN SKILLS -->
+          <div id="moreSkills" style="display:none; margin-top:16px;">
+
+            <div class="muted">
+              <i class="fa-solid fa-code me-2"></i> Mobile Development (Dart / Flutter)
+            </div>
+            <div
+              style="height:10px; background:rgba(255,255,255,0.04); border-radius:8px; overflow:hidden; margin-top:6px;">
+              <div
+                style="height:100%; width:75%; background:linear-gradient(90deg,var(--neon),var(--accent)); border-radius:8px;">
+              </div>
+            </div>
+
+            <div class="muted" style="margin-top:14px;">
+              <i class="fa-brands fa-python me-2"></i> Python Programming
+            </div>
+            <div
+              style="height:10px; background:rgba(255,255,255,0.04); border-radius:8px; overflow:hidden; margin-top:6px;">
+              <div
+                style="height:100%; width:75%; background:linear-gradient(90deg,var(--neon),var(--accent)); border-radius:8px;">
+              </div>
+            </div>
+
+            <div class="muted" style="margin-top:14px;">
+              <i class="fa-solid fa-code-branch me-2"></i> Build Tools (Gradle)
+            </div>
+            <div
+              style="height:10px; background:rgba(255,255,255,0.04); border-radius:8px; overflow:hidden; margin-top:6px;">
+              <div
+                style="height:100%; width:75%; background:linear-gradient(90deg,var(--neon),var(--accent)); border-radius:8px;">
+              </div>
+            </div>
+
+            <div class="muted" style="margin-top:14px;">
+              <i class="fa-brands fa-java me-2"></i> Core Programming (Java)
+            </div>
+            <div
+              style="height:10px; background:rgba(255,255,255,0.04); border-radius:8px; overflow:hidden; margin-top:6px;">
+              <div
+                style="height:100%; width:80%; background:linear-gradient(90deg,var(--neon),var(--accent)); border-radius:8px;">
+              </div>
+              <div class="muted" style="margin-top:12px;">React Native</div>
+              <div
+                style="height:10px; background:rgba(255,255,255,0.04); border-radius:8px; overflow:hidden; margin-top:6px;">
+                <div
+                  style="height:100%; width:78%; background:linear-gradient(90deg,var(--neon),var(--accent)); border-radius:8px;">
+                </div>
+              </div>
+
+              <div class="muted" style="margin-top:12px;">TypeScript</div>
+              <div
+                style="height:10px; background:rgba(255,255,255,0.04); border-radius:8px; overflow:hidden; margin-top:6px;">
+                <div
+                  style="height:100%; width:72%; background:linear-gradient(90deg,var(--neon),var(--accent)); border-radius:8px;">
+                </div>
+              </div>
+
+              <div class="muted" style="margin-top:12px;">PHP</div>
+              <div
+                style="height:10px; background:rgba(255,255,255,0.04); border-radius:8px; overflow:hidden; margin-top:6px;">
+                <div
+                  style="height:100%; width:80%; background:linear-gradient(90deg,var(--neon),var(--accent)); border-radius:8px;">
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- SEE MORE BUTTON -->
+          <button onclick="toggleSkills()" style="margin-top:18px; padding:6px 18px; border-radius:20px;
+      background:linear-gradient(90deg,var(--neon),var(--accent));
+      border:none; font-weight:600; cursor:pointer;">
+            See More
+          </button>
+
+        </div>
+      </div>
+      <script>
+        function toggleSkills() {
+          const moreSkills = document.getElementById('moreSkills');
+          const btn = event.currentTarget;
+          if (moreSkills.style.display === 'none') {
+            moreSkills.style.display = 'block';
+            btn.textContent = 'See Less';
+          } else {
+            moreSkills.style.display = 'none';
+            btn.textContent = 'See More';
+          }
+        }
+      </script>
+
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects">
+      <div class="panel reveal">
+        <h3 class="section-title">Projects</h3>
+
+        <!-- VIDEO CARD AT TOP (FULL WIDTH) -->
+        <div class="vertical-project-card video-top-card mb-4">
+          <video src="smart.mp4" autoplay muted loop playsinline class="project-video"></video>
+          <div>
+            <h5>Smart Food Production</h5>
+            <p class="muted">About the company</p>
+            <div class="tech-icons">
+              <i class="fa-brands fa-html5"></i> <!-- HTML -->
+              <i class="fa-brands fa-css3-alt"></i> <!-- CSS -->
+              <i class="fa-brands fa-js"></i> <!-- JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- VIDEO CARD AT TOP (FULL WIDTH) -->
+        <div class="vertical-project-card video-top-card mb-4">
+          <video src="whether.mp4" autoplay muted loop playsinline class="project-video"></video>
+          <div>
+            <h5>Wherther App</h5>
+            <p class="muted">current whether each cities show</p>
+            <div class="tech-icons">
+              <i class="fa-brands fa-react"></i> <!-- React / React Native -->
+              <i class="fa-brands fa-square-js"></i> <!-- TypeScript (use JS square as placeholder) -->
+              <i class="fa-solid fa-database"></i>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- HORIZONTAL CARDS ROW -->
+<div class="row g-4 justify-content-center">
+
+  <div class="col-lg-4 col-md-6">
+    <div class="project-card project-hover">
+      <div class="project-slider">
+        <img src="image2.png" alt="">
+        <img src="image3.png" alt="">
+        <img src="image4.png" alt="">
+      </div>
+      <h5 class="mt-3">Smart Food Factory Management</h5>
+      <div class="project-content">
+        <p class="muted">
+          Complete management system covering production, inventory, payroll, reporting, quality control,
+          supplier handling, and analytics.
+        </p>
+      </div>
+      <button class="show-more-btn" onclick="toggleProject(this)">Show more</button>
+      <div class="tech-icons">
+        <i class="fa-brands fa-java"></i>
+        <i class="fa-solid fa-database"></i>
+        <i class="fa-solid fa-server"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6">
+    <div class="project-card project-hover">
+      <div class="project-slider">
+        <img src="image5.png" alt="">
+        <img src="image6.png" alt="">
+        <img src="image7.png" alt="">
+      </div>
+      <h5 class="mt-3">E-Commerce for Clouth brand</h5>
+      <div class="project-content">
+        <p class="muted">
+          Product, order, customer, payment, checkout.
+        </p>
+      </div>
+     
+      <div class="tech-icons">
+        <i class="fa-brands fa-html"></i>
+        <i class="fa-solid fa-database"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 col-md-6">
+    <div class="project-card project-hover">
+      <div class="project-slider">
+        <img src="image8.png" alt="">
+        <img src="image9.png" alt="">
+        <img src="image10.png" alt="">
+      </div>
+      <h5 class="mt-3">school Managments Systeme</h5>
+      <div class="project-content">
+        <p class="muted">
+          Student, Teacher and Subject Registations, shedul time tables ,attendence.
+        </p>
+      </div>
+      
+      <div class="tech-icons">
+        <i class="fa-brands fa-java"></i>
+        <i class="fa-solid fa-database"></i>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+      </div>
+    </section>
+
+    <!-- CSS -->
+    <style>
+      /* VIDEO CARD TOP */
+      .video-top-card {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        flex-wrap: wrap;
+        background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, .01));
+        border: 1px solid rgba(0, 240, 255, .06);
+        padding: 16px;
+        border-radius: 12px;
+      }
+
+      .project-video {
+        width: 100%;
+        max-width: 320px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      /* HORIZONTAL CARDS */
+      .project-card {
+        height: 420px;
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, .01));
+        border: 1px solid rgba(0, 240, 255, .06);
+        border-radius: 12px;
+        padding: 18px;
+        overflow: hidden;
+        transition: .35s ease;
+      }
+
+      .project-hover:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 18px 50px rgba(0, 240, 255, .18);
+      }
+
+      .project-slider {
+        height: 170px;
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .project-slider img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+        opacity: 0;
+        animation: slideFade 12s infinite;
+      }
+
+      .project-slider img:nth-child(1) {
+        animation-delay: 0s
+      }
+
+      .project-slider img:nth-child(2) {
+        animation-delay: 4s
+      }
+
+      .project-slider img:nth-child(3) {
+        animation-delay: 8s
+      }
+
+      @keyframes slideFade {
+        0% {
+          opacity: 0
+        }
+
+        10% {
+          opacity: 1
+        }
+
+        30% {
+          opacity: 1
+        }
+
+        40% {
+          opacity: 0
+        }
+
+        100% {
+          opacity: 0
+        }
+      }
+
+      .project-content {
+        flex: 1;
+        max-height: 70px;
+        overflow: hidden;
+        transition: max-height .3s ease;
+      }
+
+      .project-content.expanded {
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .project-content.expanded::-webkit-scrollbar {
+        width: 0;
+      }
+
+      .show-more-btn {
+        background: none;
+        border: none;
+        color: var(--neon);
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 6px;
+        padding: 0;
+      }
+
+      .tech-icons i {
+        margin-right: 10px;
+        color: var(--neon);
+      }
+
+      /* VERTICAL PROJECTS */
+      .vertical-projects {
+        display: none;
+        margin-top: 30px;
+        animation: fadeIn .5s ease;
+      }
+
+      .vertical-project-card {
+        display: flex;
+        gap: 18px;
+        padding: 16px;
+        border-radius: 12px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, .01));
+        border: 1px solid rgba(0, 240, 255, .06);
+        margin-bottom: 18px;
+        transition: .3s ease;
+        align-items: center;
+      }
+
+      .vertical-project-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 40px rgba(0, 240, 255, .15);
+      }
+
+      .vertical-project-card img {
+        width: 180px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      .vertical-project-card div {
+        flex: 1;
+      }
+
+      .vertical-tech i {
+        margin-right: 10px;
+        color: var(--neon);
+      }
+
+      /* RESET WHEN LEAVING SECTION */
+      #projects:not(:hover) .project-content {
+        max-height: 70px !important;
+        overflow: hidden !important;
+      }
+
+      /* ANIMATION */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px)
+        }
+
+        to {
+          opacity: 1;
+          transform: none
+        }
+      }
+
+      /* RESPONSIVE */
+      @media(max-width:768px) {
+        .panel {
+          padding: 24px;
+          margin: 20px 16px
+        }
+
+        .project-card {
+          height: auto
+        }
+
+        .project-video {
+          max-width: 100%;
+          height: 180px;
+        }
+
+        .vertical-project-card {
+          flex-direction: column;
+          gap: 12px;
+        }
+      }
+    </style>
+
+    <!-- JS (toggle vertical projects) -->
+    <script>
+      function toggleMoreProjects() {
+        const more = document.getElementById('moreProjects');
+        const btn = document.getElementById('toggleProjectsBtn');
+        if (more.style.display === "block") {
+          more.style.display = "none";
+          btn.innerText = "See More Projects";
+        } else {
+          more.style.display = "block";
+          btn.innerText = "Show Less Projects";
+        }
+      }
+
+      function toggleProject(button) {
+        const content = button.previousElementSibling;
+        if (content.classList.contains('expanded')) {
+          content.classList.remove('expanded');
+          button.innerText = "Show more";
+        } else {
+          content.classList.add('expanded');
+          button.innerText = "Show less";
+        }
+      }
+    </script>
+
+
+
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="panel reveal text-center">
+        <h3 class="section-title">Contact</h3>
+        <p class="muted">I'm open to internships, freelance projects, and full-time roles. Reach out 👇</p>
+        <p style="margin-top:10px;">
+          <a class="contact-link me-4" href="mailto:sahanb942@gmail.com">
+            <i class="fa-solid fa-envelope"></i> Gmail
+          </a>
+
+          <a class="contact-link me-4" href="https://github.com/sahanb2005">
+            <i class="fa-brands fa-github"></i> GitHub
+          </a>
+
+          <a class="contact-link" href="https://www.linkedin.com/in/sahan-bandara-20b339344">
+            <i class="fa-brands fa-linkedin"></i> LinkedIn
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      &copy; 2025 H.M.Buddika Sahan Bandara Herath — Built with ❤️ and Three.js
+    </footer>
+
+  </div>
+
+  <script>
+    function toggleMoreProjects() {
+      const section = document.getElementById("moreProjects");
+      const btn = document.getElementById("toggleProjectsBtn");
+
+      if (section.style.display === "block") {
+        // SHOW LESS
+        section.style.display = "none";
+        btn.innerText = "See More Projects";
+
+        // Scroll back to main projects
+        document.getElementById("projects").scrollIntoView({
+          behavior: "smooth"
+        });
+      } else {
+        // SHOW MORE
+        section.style.display = "block";
+        btn.innerText = "Show Less";
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+  <script>
+
+    const canvas = document.getElementById('bg-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.01, 1000);
+    camera.position.z = 100;
+
+
+    const nodeCount = 180;
+    const positions = new Float32Array(nodeCount * 3);
+    const velocities = new Float32Array(nodeCount * 3);
+
+    for (let i = 0; i < nodeCount; i++) {
+      const i3 = i * 3;
+      positions[i3] = (Math.random() - 0.5) * 160; // x
+      positions[i3 + 1] = (Math.random() - 0.5) * 90;  // y
+      positions[i3 + 2] = (Math.random() - 0.5) * 160; // z
+
+      velocities[i3] = (Math.random() - 0.5) * 0.03;
+      velocities[i3 + 1] = (Math.random() - 0.5) * 0.03;
+      velocities[i3 + 2] = (Math.random() - 0.5) * 0.03;
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const material = new THREE.PointsMaterial({ size: 0.7, color: 0x00f0ff, transparent: true, opacity: 0.9 });
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.12 });
+    const maxConnections = nodeCount * 8;
+    const linePositions = new Float32Array(maxConnections * 30 * 20);
+    const lineGeometry = new THREE.BufferGeometry();
+    lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3).setUsage(THREE.DynamicDrawUsage));
+    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+    scene.add(lines);
+
+
+    const mouse = new THREE.Vector2(9999, 9999);
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    function updateNodes() {
+      const positions = geometry.attributes.position.array;
+      for (let i = 0; i < nodeCount; i++) {
+        const i3 = i * 3;
+        positions[i3] += velocities[i3];
+        positions[i3 + 1] += velocities[i3 + 1];
+        positions[i3 + 2] += velocities[i3 + 2];
+
+
+        if (positions[i3] > 80) positions[i3] = -80;
+        if (positions[i3] < -80) positions[i3] = 80;
+        if (positions[i3 + 1] > 45) positions[i3 + 1] = -45;
+        if (positions[i3 + 1] < -45) positions[i3 + 1] = 45;
+        if (positions[i3 + 2] > 80) positions[i3 + 2] = -80;
+        if (positions[i3 + 2] < -80) positions[i3 + 2] = 80;
+
+
+        const mx = mouse.x * 80;
+        const my = mouse.y * 45;
+        const dx = mx - positions[i3];
+        const dy = my - positions[i3 + 1];
+        const dz = -positions[i3 + 2];
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz) + 0.001;
+        if (dist < 30) {
+          positions[i3] += dx / dist * 0.08;
+          positions[i3 + 1] += dy / dist * 0.04;
+        }
+      }
+      geometry.attributes.position.needsUpdate = true;
+    }
+
+    function updateLines() {
+      const positions = geometry.attributes.position.array;
+      const lp = lineGeometry.attributes.position.array;
+      let idx = 0;
+      for (let i = 0; i < nodeCount; i++) {
+        const i3 = i * 3;
+        for (let j = i + 1; j < nodeCount; j++) {
+          const j3 = j * 3;
+          const dx = positions[i3] - positions[j3];
+          const dy = positions[i3 + 1] - positions[j3 + 1];
+          const dz = positions[i3 + 2] - positions[j3 + 2];
+          const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+          if (dist < 18) {
+
+            lp[idx++] = positions[i3]; lp[idx++] = positions[i3 + 1]; lp[idx++] = positions[i3 + 2];
+            lp[idx++] = positions[j3]; lp[idx++] = positions[j3 + 1]; lp[idx++] = positions[j3 + 2];
+            if (idx >= lp.length - 6) break;
+          }
+        }
+        if (idx >= lp.length - 6) break;
+      }
+
+      for (let k = idx; k < lp.length; k++) lp[k] = 0;
+      lineGeometry.attributes.position.needsUpdate = true;
+    }
+
+
+    let rot = 0;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      updateNodes();
+      updateLines();
+
+      rot += 0.0005;
+      points.rotation.y = rot;
+      lines.rotation.y = rot;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+
+    window.addEventListener('resize', () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    });
+
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) renderer.setAnimationLoop(null);
+      else renderer.setAnimationLoop(animate);
+    });
+
+  </script>
+  <script>
+    function toggleMoreProjects() {
+      const section = document.getElementById("moreProjects");
+      section.style.display = "block";
+    }
+  </script>
+
+  <script>
+    function toggleProject(btn) {
+      const content = btn.previousElementSibling;
+
+      if (content.classList.contains("expanded")) {
+        content.classList.remove("expanded");
+        btn.innerText = "Show more";
+      } else {
+        content.classList.add("expanded");
+        btn.innerText = "Show less";
+      }
+    }
+
+    // RESET ON LEAVE SECTION
+    document.getElementById("projects").addEventListener("mouseleave", () => {
+      document.querySelectorAll(".project-content").forEach(c => {
+        c.classList.remove("expanded");
+      });
+      document.querySelectorAll(".show-more-btn").forEach(b => {
+        b.innerText = "Show more";
+      });
+    });
+
+    // SEE MORE PROJECTS
+    function toggleMoreProjects() {
+      const sec = document.getElementById("moreProjects");
+      const btn = document.getElementById("toggleProjectsBtn");
+
+      if (sec.style.display === "block") {
+        sec.style.display = "none";
+        btn.innerText = "See More Projects";
+      } else {
+        sec.style.display = "block";
+        btn.innerText = "Show Less";
+      }
+    }
+  </script>
+
+
+  <script>
+
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('show');
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => obs.observe(r));
+
+
+    function downloadResume() {
+      alert('This will be update soon. Meanwhile, you can contact me at:above Email address.');
+     // const url = 'resume.pdf';
+
+     // fetch(url, { method: 'HEAD' })
+      //  .then(res => {
+      //    if (res.ok) {
+       //     const a = document.createElement('a');
+        //    a.href = url; a.download = 'Sahan_Bandara_Resume.pdf';
+        //    document.body.appendChild(a); a.click(); a.remove();
+        //  } else {
+        //    alert('Resume not found in folder. Please upload resume.pdf to site root or contact me.');
+       //   }
+      //  }).catch(_ => {
+     //     alert('Resume not found. Contact: sahanb942@gmail.com');
+//});
+    }
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
