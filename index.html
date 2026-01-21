@@ -62,29 +62,40 @@
       border: 1px solid rgba(0, 240, 255, 0.06);
     }
 
-    /* Navbar */
-    .navbar {
-      background: linear-gradient(90deg, rgba(10, 10, 20, 0.8), rgba(20, 16, 40, 0.6));
-      border-bottom: 1px solid rgba(0, 240, 255, 0.04);
-      z-index: 15;
-      backdrop-filter: blur(6px);
-    }
+   .navbar {
+  background: rgba(10, 10, 20, 0.6);
+  backdrop-filter: blur(12px) saturate(1.2);
+  transition: all 0.4s ease;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.08);
+}
 
-    .navbar .navbar-brand {
-      color: var(--neon);
-      font-weight: 700;
-      letter-spacing: 0.4px;
-    }
+.navbar.scrolled {
+  background: rgba(0,0,0,0.75);
+  box-shadow: 0 8px 25px rgba(0, 240, 255, 0.25);
+}
 
-    .navbar .nav-link {
-      color: rgba(160, 240, 255, 0.9);
-      font-weight: 500;
-    }
+.navbar .nav-link {
+  position: relative;
+  transition: all 0.3s ease;
+}
 
-    .navbar .nav-link:hover {
-      color: var(--accent);
-      text-shadow: 0 0 8px rgba(168, 75, 255, 0.12);
-    }
+.navbar .nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #00f0ff, #a84bff);
+  left: 0;
+  bottom: -4px;
+  transition: width 0.35s ease;
+}
+
+.navbar .nav-link:hover::after,
+.navbar .nav-link.active::after {
+  width: 100%;
+}
+
+
 
     /* Hero area */
     .hero {
@@ -427,6 +438,10 @@
       max-height: 70px;
       overflow: hidden;
     }
+    .navbar.scrolled {
+  box-shadow: 0 8px 25px rgba(0, 240, 255, 0.15);
+}
+
 
     .soft-skill {
       padding: 16px;
@@ -1219,6 +1234,19 @@
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
   <script>
+  document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const navMenu = document.getElementById('navMenu');
+      const bsCollapse = bootstrap.Collapse.getInstance(navMenu);
+      if (bsCollapse) {
+        bsCollapse.hide();
+      }
+    });
+  });
+</script>
+
+
+  <script>
 
     const canvas = document.getElementById('bg-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
@@ -1428,6 +1456,7 @@
       //     alert('Resume not found. Contact: sahanb942@gmail.com');
       //});
     }
+    
         function toggleMoreProjects() {
       const section = document.getElementById("moreProjects");
       const btn = document.getElementById("toggleProjectsBtn");
