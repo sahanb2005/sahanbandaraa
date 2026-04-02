@@ -1,0 +1,14 @@
+{
+  "name": "myproto",
+  "version": "1.1.0",
+  "description": "Sahan Bandara Portfolio v1.1",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx -y http-server . -p 8080",
+    "dev": "npx -y http-server . -p 8080"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
